@@ -22,6 +22,30 @@ async function readMarkdownFile(filePath) {
   }
 }
 
+async function saveMarkdownFile({ content, defaultName, filePath }) {
+  let targetPath = filePath
+
+  if (!targetPath) {
+    const result = await dialog.showSaveDialog(mainWindow, {
+      title: '保存 Markdown 文件',
+      defaultPath: defaultName,
+      filters: [
+        { name: 'Markdown Files', extensions: ['md', 'markdown'] },
+        { name: 'Text Files', extensions: ['txt'] },
+      ],
+    })
+
+    if (result.canceled || !result.filePath) {
+      return null
+    }
+
+    targetPath = result.filePath
+  }
+
+  await fs.writeFile(targetPath, content, 'utf8')
+  return readMarkdownFile(targetPath)
+}
+
 async function deliverFileToRenderer(filePath) {
   if (!mainWindow || !filePath) {
     return
@@ -39,10 +63,10 @@ function showOpenError(error) {
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1480,
-    height: 960,
-    minWidth: 1080,
-    minHeight: 720,
+    width: 1500,
+    height: 980,
+    minWidth: 1160,
+    minHeight: 760,
     title: 'MD Reader',
     icon: appIconPath,
     backgroundColor: '#f4efe6',
@@ -89,6 +113,7 @@ app.whenReady().then(() => {
       }
       mainWindow.focus()
     }
+
     if (filePath) {
       pendingFilePath = filePath
       deliverFileToRenderer(filePath).catch(showOpenError)
@@ -110,6 +135,22 @@ app.whenReady().then(() => {
     }
 
     return readMarkdownFile(result.filePaths[0])
+  })
+
+  ipcMain.handle('file:read-markdown', async (_event, filePath) => {
+    if (!filePath) {
+      return null
+    }
+
+    return readMarkdownFile(filePath)
+  })
+
+  ipcMain.handle('file:save-markdown', async (_event, payload) => {
+    if (!payload) {
+      return null
+    }
+
+    return saveMarkdownFile(payload)
   })
 
   createWindow()
