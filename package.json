@@ -11,7 +11,8 @@
     "dev:electron": "concurrently -k \"npm:dev\" \"npm:dev:desktop\"",
     "dev:desktop": "wait-on tcp:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .",
     "build": "tsc -b && vite build",
-    "build:desktop": "npm run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win nsis",
+    "build:desktop": "npm run build:icons && npm run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win nsis",
+    "build:icons": "node scripts/build-icons.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -41,6 +42,8 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.5",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12",
@@ -60,6 +63,7 @@
     ],
     "asar": true,
     "win": {
+      "icon": "build/icon.ico",
       "signAndEditExecutable": false,
       "target": [
         {
