@@ -1,7 +1,7 @@
 {
   "name": "md-reader-desktop",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "electron/main.cjs",
   "description": "A desktop Markdown reader with Word-like preview and DOCX export.",
   "author": "OpenAI Codex",
@@ -63,6 +63,7 @@
     ],
     "asar": true,
     "win": {
+      "executableName": "MD Reader",
       "icon": "build/icon.ico",
       "signAndEditExecutable": false,
       "target": [

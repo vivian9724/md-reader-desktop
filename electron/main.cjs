@@ -4,6 +4,7 @@ const fs = require('node:fs/promises')
 
 let mainWindow = null
 let pendingFilePath = extractMarkdownPath(process.argv)
+const appIconPath = path.join(__dirname, '..', 'build', 'icon-256.png')
 
 function extractMarkdownPath(argv) {
   const candidates = argv.slice(1)
@@ -43,6 +44,7 @@ function createWindow() {
     minWidth: 1080,
     minHeight: 720,
     title: 'MD Reader',
+    icon: appIconPath,
     backgroundColor: '#f4efe6',
     autoHideMenuBar: true,
     webPreferences: {
@@ -71,6 +73,8 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  app.setName('MD Reader')
+
   const gotLock = app.requestSingleInstanceLock()
   if (!gotLock) {
     app.quit()
