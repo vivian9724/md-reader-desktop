@@ -1,15 +1,31 @@
 # MD Reader Desktop
 
-A desktop Markdown reader built with React, Vite, and Electron. It focuses on a Word-like reading experience, clearer table rendering, and one-click export to `.docx`.
+A desktop Markdown reader focused on comfortable reading instead of heavy editing.
 
-## Features
+It turns plain `.md` files into a more document-like experience with a Word-style reading layout, stronger table presentation, and direct `.docx` export.
 
-- Word-style reading layout for Markdown documents
-- Enhanced table cards with sticky headers and better scanability
-- Desktop app packaging for Windows with Electron
+## What It Does
+
 - Open local `.md`, `.markdown`, and `.txt` files
+- Read Markdown in a cleaner paper-style layout
+- Render tables as stronger visual cards for easier scanning
 - Export the current reading view to `.docx`
-- Windows file association metadata for Markdown files
+- Package as a Windows desktop app with Electron
+- Register Markdown file associations for Windows installer builds
+
+## Why This Exists
+
+Most Markdown tools are either:
+
+- editor-first, where the source view dominates the reading experience
+- export-first, where reading tables and long-form content still feels rough
+
+MD Reader Desktop is aimed at the middle ground:
+
+- keep the original Markdown content intact
+- make the reading experience feel closer to Word
+- make tables easier to read
+- still let you export to a `.docx` file when needed
 
 ## Tech Stack
 
@@ -19,30 +35,43 @@ A desktop Markdown reader built with React, Vite, and Electron. It focuses on a 
 - Electron
 - electron-builder
 
-## Development
+## Local Development
 
 ```bash
 npm install
 npm run dev:electron
 ```
 
-This starts the Vite dev server and the Electron desktop shell together.
+This starts the Vite dev server and the Electron shell together.
 
-## Production Build
+## Build Installer
 
 ```bash
 npm run build:desktop
 ```
 
-The Windows installer output is written to `release/`.
+Installer output is written to `release/`.
 
 ## Project Structure
 
-- `src/`: React UI
-- `electron/`: Electron main/preload processes
-- `public/`: static assets
+- `src/` - React UI and Markdown reader experience
+- `electron/` - Electron main process and preload bridge
+- `public/` - static assets
 
-## Notes
+## Git Notes
 
-- `dist/`, `release/`, and `node_modules/` are ignored in Git.
-- The packaged app is intended for local Markdown reading rather than full Markdown editing.
+Generated build outputs are ignored:
+
+- `node_modules/`
+- `dist/`
+- `release/`
+
+## Status
+
+The app currently focuses on:
+
+- reading Markdown comfortably
+- improving table visibility
+- exporting preview content to Word
+
+It is intentionally not a full Markdown editor.
